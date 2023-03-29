@@ -1,0 +1,426 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Portfolio {%endblock %}
+<!-- MENU -->
+
+{% block content %}
+<nav class="navbar navbar-expand-sm navbar-light">
+  <div class="container">
+    <a class="navbar-brand" href="/"
+      ><img src="{% static 'images/logo.jpg' %}"/> Codiva</a
+    >
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a href="#about" class="nav-link"
+            ><span data-hover="About">About</span></a
+          >
+        </li>
+        
+        <li class="nav-item">
+          <a href="#resume" class="nav-link"
+            ><span data-hover="Resume">Resume</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#project" class="nav-link"
+            ><span data-hover="Projects">Projects</span></a
+          >
+        </li>
+        <li class="nav-item">
+          <a href="#contact" class="nav-link"
+            ><span data-hover="Contact">Contact</span></a
+          >
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-lg-auto">
+        <div class="ml-lg-4">
+          <div
+            class="color-mode d-lg-flex justify-content-center align-items-center"
+          >
+            <i class="color-mode-icon"></i>
+            Color mode
+          </div>
+        </div>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!--About-->
+<section class="about full-screen d-lg-flex justify-content-center align-items-center" id="about">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 col-md-12 col-12 order-md-2">
+        <div class="about-image svg" style="margin-bottom: 15px; margin-top: 15px;">
+          <img src="{{user_profile.avatar.url}}" class="img-fluid" alt="{{user_profile.first_name}} {{user_profile.last_name}}" />
+        </div>
+      </div>
+
+      <div class="col-lg-7 col-md-12 col-12  order-md-1 d-flex align-items-center">
+        <div class="about-text align-items-center">
+          <small class="small-text">
+          Welcome to <span class="mobile-block">my portfolio website!</span>
+          </small>
+          <h1 class="animated animated-text">
+            <span class="mr-2">Hey folks, I'm</span>
+            <div class="animated-info">
+              <span class="animated-item">{{user_profile.first_name}} {{user_profile.last_name}}</span>
+              <span class="animated-item">{{user_profile.title}}</span>
+            </div>
+          </h1>
+          <p>{{user_profile.bio}}</p>
+          <br>
+          <div class="custom-btn-group mt-4">
+            <a href="{{user_profile.resume.url}}" class="btn mr-lg-2 custom-btn">
+              <i class="uil uil-file-alt"></i> Download Resume
+            </a>
+            <a href="#contact" class="btn custom-btn custom-btn-bg custom-btn-link">Get a free quote</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!--PROFILES-->
+<section>
+  <div class="sectionSpace pt-0 profiles">
+    <div class="container">
+      <div class="row pb-3">
+        <div class="col">
+          <h4 class="smText regular"><h4> Profiles</h4></h4>
+        </div>
+      </div>
+      <div class="sliderOuter">
+        <div class="swiper certificatesSlider">
+          <div class="swiper-wrapper link-card">
+            {% for profile in profiles %}
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img
+                    src="{{profile.icon.url}}"
+                    alt="Avatar"
+                    
+                  />
+                </div>
+                <div class="flip-card-back" >
+                  <p style="margin-top: 0; margin-bottom: 0">
+                    <a href="{{profile.link}}">{{profile.name}}</a>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--SKILLS-->
+<section>
+  <div class="sectionSpaceSm lightBg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-auto">
+          <div class="keySkillCol">
+            <h4 class="smTitle pb-3"><h4>Key Skills</h4>
+            {% for skill in skills%} {% if skill.is_key_skill %}
+            <div class="keySkillCard">
+              {% if skill.icon %}
+              <div class="ksIconCol">
+                <img src="{{skill.icon.url}}" alt="..." />
+              </div>
+              {% endif %}
+              <span class="ksText">{{skill.name}}</span>
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+        </div>
+        <div class="col-md">
+          <h4 class="smTitle pb-3"><h4>Coding Skills</h4>
+          <div class="progressCol">
+            <div class="progressCard">
+              {% for skill in skills%} {% if not skill.is_key_skill %}
+              <div class="progressCol">
+                <span class="progressLbl"> {{skill.name}} </span>
+                <div class="row g-2 align-items-center">
+                  <div class="col">
+                    <div class="progress progressStyle">
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="width: {{skill.efficiency}}%"
+                        aria-valuenow="{{skill.efficiency}}"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="col-auto">
+                    <span class="pLbl"> {{skill.efficiency}} </span>
+                  </div>
+                </div>
+              </div>
+              {% endif %} {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE AND EDUACTION -->
+<section
+  class="resume py-5 d-lg-flex justify-content-center align-items-center"
+  id="resume">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-6 col-12">
+        <h3 class="mb-4">Experiences</h3>
+
+        <div class="timeline">
+          {% for experience in experiences %}
+          <div class="timeline-wrapper">
+            <div class="timeline-yr">
+              <span>{{experience.year}}</span>
+            </div>
+            <div class="timeline-info">
+              <span> <h3>{{experience.company}}</h3></span>
+              <h3>
+                <small>
+                  {{experience.date.date}} &nbsp | &nbsp {{experience.location}}
+                </small>
+              </h3>
+              <p>{{experience.description|safe}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="col-lg-6 col-12">
+        <h3 class="mb-4 mobile-mt-2">Educations</h3>
+
+        <div class="timeline">
+          {% for education in educations %}
+          <div class="timeline-wrapper">
+            <div class="timeline-yr">
+              <span>{{education.year}}</span>
+            </div>
+
+            <div class="timeline-info">
+              <span
+                ><a href="{{education.link}}"
+                  ><h3><span class="edu">{{education.institution}}</span></h3></a
+                ></span
+              >
+              <h3>
+                <small
+                  >{{education.date.date}} &nbsp | &nbsp {{education.location}}
+                </small>
+              </h3>
+              <p>{{education.description|safe}}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--CERTIFICATES-->
+<section>
+  <div class="sectionSpaceSm lightBg">
+    <div class="container">
+      <div class="row pb-3">
+        <div class="col">
+          <h4 class="smText regular"><h4>Certificates & Achievements</h4>
+        </div>
+      </div>
+      <div class="sliderOuter">
+        <div class="swiper certificatesSlider">
+          <div class="swiper-wrapper">
+            {% for certificate in certificates %}
+
+            <div class="swiper-slide">
+              <div class="cardStyle1">
+                <h4 class="mdTitle cs1Title">
+                  <a href="{{certificate.link}}"><b>{{certificate.name}}</b></a>
+                </h4>
+                <ul class="cardOptionCol">
+                  <li><h6>{{certificate.date.date}}</h6></li>
+                  <li><h6>{{certificate.location|title}}</h6></li>
+                </ul>
+                <p>{{certificate.description|safe}}</p>
+              </div>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+        <div
+          class="cert-swiper-button-next swiper-button-next swiperBtnStyle"
+        ></div>
+        <div
+          class="cert-swiper-button-prev swiper-button-prev swiperBtnStyle"
+        ></div>
+        <div class="swiper-pagination swiperPaginationStyle posInitial"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Certificate Images-->
+<section class="project py-5 ">
+  
+  <div class="container">
+    <h4 class="smText regular"><h4>Programs</h4>
+    <div class="row">
+      <div class="col-lg-11 text-center mx-auto col-12">
+        <div class="col">
+          
+        </div>
+
+        <div class="owl-carousel owl-theme">
+          {% for i in certificateImages %}
+          <div class="item">
+            <div class="project-info">
+              <img
+                src=' {{i.image.url}} '
+                class="img-fluid"
+                alt="certificate image"
+                style="height"
+              />
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Projects -->
+<section id="project">
+  <div class="sectionSpaceSm lightBg">
+    <div class="container">
+      <div class="row pb-3">
+        <div class="col">
+          <h4 class="smText regular"><h4>Projects</h4></h4>
+        </div>
+
+        <div class="blog-slider">
+          <div class="blog-slider__wrp swiper-wrapper">
+            {% for project in projects %} {% if project.is_active %}
+            <div class="blog-slider__item swiper-slide">
+              <div class="blog-slider__img">
+                <img src="{{project.image.url}}" alt="" />
+              </div>
+              <div class="blog-slider__content">
+                <span class="blog-slider__code"
+                  >{{project.date|date:"F Y"}}</span
+                >
+                <div class="blog-slider__title">{{project.name}}</div>
+                <div class="blog-slider__text">
+                  {{project.description|safe}}
+                </div>
+                <a href="{{project.link}}" class="blog-slider__button">Project Github Link</a>
+              </div>
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+
+          <div class="blog-slider__pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<p style="padding-bottom: 50px"></p>
+
+
+
+<!--CONTACT-->
+
+<section class="contact py-5" id="contact">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-5 mr-lg-5 col-12">
+        <div class="google-map w-100">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3471.337892196731!2d74.65889401503416!3d26.40056208335078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x396be172836cdae9%3A0x649b156f6ec78963!2sGovernment%20women%20engineering%20College%20Ajmer!5e1!3m2!1sen!2sin!4v1679748028141!5m2!1sen!2sin" 
+          width="600" 
+          height="600" 
+          style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+       
+      </div>
+
+      <div class="col-lg-6 col-12">
+        <div class="contact-form">
+          <h2 class="mb-4">Interested to work together? Let's talk</h2>
+
+
+          {% if messages %}
+          <div class="messages-container">
+          {% for message in messages %}
+              <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              <script>
+              $(document).ready(function() {
+              setTimeout(function() {
+              $('.alert-dismissible').alert('close');
+              }, 5000);
+              });
+              </script>
+              {% if not forloop.last %}
+              {{ messages.get }}
+              {% endif %}
+          {% endfor %}
+             </div>
+            {% endif %}
+
+
+
+          <form method="POST" id='ContactForm' action="">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="btn btn-primary">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
