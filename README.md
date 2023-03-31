@@ -1,2 +1,4 @@
 # Personal_Portfolio_Site
- Website of personal portfolio made using Django.
+Made Personal Portfolio website using Django and hosted it on python anywhere
+Here is the link https://nezuke.pythonanywhere.com/
+ 
